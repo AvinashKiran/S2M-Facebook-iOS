@@ -1,0 +1,392 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01F343E515F8FBCE0094D9D5 /* S2M-Facebook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01F343E415F8FBCE0094D9D5 /* S2M-Facebook.framework */; };
+		01F343E715F8FEEE0094D9D5 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 01F343E615F8FEEE0094D9D5 /* libsqlite3.dylib */; };
+		E83E605E1523746A0041A1AC /* AlbumListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E83E604A152374690041A1AC /* AlbumListViewController.m */; };
+		E83E605F1523746A0041A1AC /* AlbumListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E83E604B152374690041A1AC /* AlbumListViewController.xib */; };
+		E83E60601523746A0041A1AC /* AlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E83E604D152374690041A1AC /* AlbumViewController.m */; };
+		E83E60611523746A0041A1AC /* AlbumViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E83E604E152374690041A1AC /* AlbumViewController.xib */; };
+		E83E60621523746A0041A1AC /* CommentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E83E6050152374690041A1AC /* CommentListViewController.m */; };
+		E83E60631523746A0041A1AC /* CommentListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E83E6051152374690041A1AC /* CommentListViewController.xib */; };
+		E83E60641523746A0041A1AC /* FeedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E83E60531523746A0041A1AC /* FeedListViewController.m */; };
+		E83E60651523746A0041A1AC /* FeedListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E83E60541523746A0041A1AC /* FeedListViewController.xib */; };
+		E83E60661523746A0041A1AC /* FriendListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E83E60561523746A0041A1AC /* FriendListViewController.m */; };
+		E83E60671523746A0041A1AC /* FriendListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E83E60571523746A0041A1AC /* FriendListViewController.xib */; };
+		E83E60681523746A0041A1AC /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E83E60591523746A0041A1AC /* PhotoViewController.m */; };
+		E83E60691523746A0041A1AC /* PhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E83E605A1523746A0041A1AC /* PhotoViewController.xib */; };
+		E83E606A1523746A0041A1AC /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E83E605C1523746A0041A1AC /* PostViewController.m */; };
+		E83E606B1523746A0041A1AC /* PostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E83E605D1523746A0041A1AC /* PostViewController.xib */; };
+		E8880C261523714D00C25F7F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8880C251523714D00C25F7F /* UIKit.framework */; };
+		E8880C281523714D00C25F7F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8880C271523714D00C25F7F /* Foundation.framework */; };
+		E8880C2A1523714D00C25F7F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8880C291523714D00C25F7F /* CoreGraphics.framework */; };
+		E8880C301523714D00C25F7F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8880C2E1523714D00C25F7F /* InfoPlist.strings */; };
+		E8880C321523714D00C25F7F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E8880C311523714D00C25F7F /* main.m */; };
+		E8880C361523714D00C25F7F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E8880C351523714D00C25F7F /* AppDelegate.m */; };
+		E8880C391523714D00C25F7F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8880C381523714D00C25F7F /* ViewController.m */; };
+		E8880C3C1523714D00C25F7F /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8880C3A1523714D00C25F7F /* ViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		01F343E415F8FBCE0094D9D5 /* S2M-Facebook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "S2M-Facebook.framework"; path = "../s2m-facebook-iOS/framework/S2M-Facebook.framework"; sourceTree = "<group>"; };
+		01F343E615F8FEEE0094D9D5 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		E83E6049152374690041A1AC /* AlbumListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumListViewController.h; sourceTree = "<group>"; };
+		E83E604A152374690041A1AC /* AlbumListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumListViewController.m; sourceTree = "<group>"; };
+		E83E604B152374690041A1AC /* AlbumListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlbumListViewController.xib; sourceTree = "<group>"; };
+		E83E604C152374690041A1AC /* AlbumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumViewController.h; sourceTree = "<group>"; };
+		E83E604D152374690041A1AC /* AlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumViewController.m; sourceTree = "<group>"; };
+		E83E604E152374690041A1AC /* AlbumViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlbumViewController.xib; sourceTree = "<group>"; };
+		E83E604F152374690041A1AC /* CommentListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentListViewController.h; sourceTree = "<group>"; };
+		E83E6050152374690041A1AC /* CommentListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentListViewController.m; sourceTree = "<group>"; };
+		E83E6051152374690041A1AC /* CommentListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentListViewController.xib; sourceTree = "<group>"; };
+		E83E6052152374690041A1AC /* FeedListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedListViewController.h; sourceTree = "<group>"; };
+		E83E60531523746A0041A1AC /* FeedListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedListViewController.m; sourceTree = "<group>"; };
+		E83E60541523746A0041A1AC /* FeedListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedListViewController.xib; sourceTree = "<group>"; };
+		E83E60551523746A0041A1AC /* FriendListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListViewController.h; sourceTree = "<group>"; };
+		E83E60561523746A0041A1AC /* FriendListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendListViewController.m; sourceTree = "<group>"; };
+		E83E60571523746A0041A1AC /* FriendListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendListViewController.xib; sourceTree = "<group>"; };
+		E83E60581523746A0041A1AC /* PhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
+		E83E60591523746A0041A1AC /* PhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoViewController.m; sourceTree = "<group>"; };
+		E83E605A1523746A0041A1AC /* PhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoViewController.xib; sourceTree = "<group>"; };
+		E83E605B1523746A0041A1AC /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostViewController.h; sourceTree = "<group>"; };
+		E83E605C1523746A0041A1AC /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostViewController.m; sourceTree = "<group>"; };
+		E83E605D1523746A0041A1AC /* PostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostViewController.xib; sourceTree = "<group>"; };
+		E8880C211523714D00C25F7F /* TICBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TICBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E8880C251523714D00C25F7F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		E8880C271523714D00C25F7F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		E8880C291523714D00C25F7F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		E8880C2D1523714D00C25F7F /* TICBook-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TICBook-Info.plist"; sourceTree = "<group>"; };
+		E8880C2F1523714D00C25F7F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E8880C311523714D00C25F7F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E8880C331523714D00C25F7F /* TICBook-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TICBook-Prefix.pch"; sourceTree = "<group>"; };
+		E8880C341523714D00C25F7F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		E8880C351523714D00C25F7F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		E8880C371523714D00C25F7F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		E8880C381523714D00C25F7F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		E8880C3B1523714D00C25F7F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E8880C1E1523714D00C25F7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01F343E715F8FEEE0094D9D5 /* libsqlite3.dylib in Frameworks */,
+				E8880C261523714D00C25F7F /* UIKit.framework in Frameworks */,
+				E8880C281523714D00C25F7F /* Foundation.framework in Frameworks */,
+				E8880C2A1523714D00C25F7F /* CoreGraphics.framework in Frameworks */,
+				01F343E515F8FBCE0094D9D5 /* S2M-Facebook.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E81A74DB1573B0A500E2661D /* Library */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
+		E8880C161523714D00C25F7F = {
+			isa = PBXGroup;
+			children = (
+				01F343E615F8FEEE0094D9D5 /* libsqlite3.dylib */,
+				E81A74DB1573B0A500E2661D /* Library */,
+				E8880C2B1523714D00C25F7F /* TICBook */,
+				E8880C241523714D00C25F7F /* Frameworks */,
+				E8880C221523714D00C25F7F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E8880C221523714D00C25F7F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E8880C211523714D00C25F7F /* TICBook.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E8880C241523714D00C25F7F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				01F343E415F8FBCE0094D9D5 /* S2M-Facebook.framework */,
+				E8880C251523714D00C25F7F /* UIKit.framework */,
+				E8880C271523714D00C25F7F /* Foundation.framework */,
+				E8880C291523714D00C25F7F /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E8880C2B1523714D00C25F7F /* TICBook */ = {
+			isa = PBXGroup;
+			children = (
+				E8880C341523714D00C25F7F /* AppDelegate.h */,
+				E8880C351523714D00C25F7F /* AppDelegate.m */,
+				E8880C371523714D00C25F7F /* ViewController.h */,
+				E8880C381523714D00C25F7F /* ViewController.m */,
+				E8880C3A1523714D00C25F7F /* ViewController.xib */,
+				E83E6049152374690041A1AC /* AlbumListViewController.h */,
+				E83E604A152374690041A1AC /* AlbumListViewController.m */,
+				E83E604B152374690041A1AC /* AlbumListViewController.xib */,
+				E83E604C152374690041A1AC /* AlbumViewController.h */,
+				E83E604D152374690041A1AC /* AlbumViewController.m */,
+				E83E604E152374690041A1AC /* AlbumViewController.xib */,
+				E83E604F152374690041A1AC /* CommentListViewController.h */,
+				E83E6050152374690041A1AC /* CommentListViewController.m */,
+				E83E6051152374690041A1AC /* CommentListViewController.xib */,
+				E83E6052152374690041A1AC /* FeedListViewController.h */,
+				E83E60531523746A0041A1AC /* FeedListViewController.m */,
+				E83E60541523746A0041A1AC /* FeedListViewController.xib */,
+				E83E60551523746A0041A1AC /* FriendListViewController.h */,
+				E83E60561523746A0041A1AC /* FriendListViewController.m */,
+				E83E60571523746A0041A1AC /* FriendListViewController.xib */,
+				E83E60581523746A0041A1AC /* PhotoViewController.h */,
+				E83E60591523746A0041A1AC /* PhotoViewController.m */,
+				E83E605A1523746A0041A1AC /* PhotoViewController.xib */,
+				E83E605B1523746A0041A1AC /* PostViewController.h */,
+				E83E605C1523746A0041A1AC /* PostViewController.m */,
+				E83E605D1523746A0041A1AC /* PostViewController.xib */,
+				E8880C2C1523714D00C25F7F /* Supporting Files */,
+			);
+			path = TICBook;
+			sourceTree = "<group>";
+		};
+		E8880C2C1523714D00C25F7F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E8880C2D1523714D00C25F7F /* TICBook-Info.plist */,
+				E8880C2E1523714D00C25F7F /* InfoPlist.strings */,
+				E8880C311523714D00C25F7F /* main.m */,
+				E8880C331523714D00C25F7F /* TICBook-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E8880C201523714D00C25F7F /* TICBook */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E8880C3F1523714D00C25F7F /* Build configuration list for PBXNativeTarget "TICBook" */;
+			buildPhases = (
+				E8880C1D1523714D00C25F7F /* Sources */,
+				E8880C1E1523714D00C25F7F /* Frameworks */,
+				E8880C1F1523714D00C25F7F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TICBook;
+			productName = TICBook;
+			productReference = E8880C211523714D00C25F7F /* TICBook.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E8880C181523714D00C25F7F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = E8880C1B1523714D00C25F7F /* Build configuration list for PBXProject "TICBook" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E8880C161523714D00C25F7F;
+			productRefGroup = E8880C221523714D00C25F7F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E8880C201523714D00C25F7F /* TICBook */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E8880C1F1523714D00C25F7F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E8880C301523714D00C25F7F /* InfoPlist.strings in Resources */,
+				E8880C3C1523714D00C25F7F /* ViewController.xib in Resources */,
+				E83E605F1523746A0041A1AC /* AlbumListViewController.xib in Resources */,
+				E83E60611523746A0041A1AC /* AlbumViewController.xib in Resources */,
+				E83E60631523746A0041A1AC /* CommentListViewController.xib in Resources */,
+				E83E60651523746A0041A1AC /* FeedListViewController.xib in Resources */,
+				E83E60671523746A0041A1AC /* FriendListViewController.xib in Resources */,
+				E83E60691523746A0041A1AC /* PhotoViewController.xib in Resources */,
+				E83E606B1523746A0041A1AC /* PostViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E8880C1D1523714D00C25F7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E8880C321523714D00C25F7F /* main.m in Sources */,
+				E8880C361523714D00C25F7F /* AppDelegate.m in Sources */,
+				E8880C391523714D00C25F7F /* ViewController.m in Sources */,
+				E83E605E1523746A0041A1AC /* AlbumListViewController.m in Sources */,
+				E83E60601523746A0041A1AC /* AlbumViewController.m in Sources */,
+				E83E60621523746A0041A1AC /* CommentListViewController.m in Sources */,
+				E83E60641523746A0041A1AC /* FeedListViewController.m in Sources */,
+				E83E60661523746A0041A1AC /* FriendListViewController.m in Sources */,
+				E83E60681523746A0041A1AC /* PhotoViewController.m in Sources */,
+				E83E606A1523746A0041A1AC /* PostViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E8880C2E1523714D00C25F7F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E8880C2F1523714D00C25F7F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		E8880C3A1523714D00C25F7F /* ViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E8880C3B1523714D00C25F7F /* en */,
+			);
+			name = ViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E8880C3D1523714D00C25F7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		E8880C3E1523714D00C25F7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E8880C401523714D00C25F7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../s2m-facebook-iOS/framework\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TICBook/TICBook-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"../project/TIClib-facebook/**",
+					"../../../facebook-ios-sdk/lib/facebook-ios-sdk/**",
+				);
+				INFOPLIST_FILE = "TICBook/TICBook-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"../../../facebook-ios-sdk/lib/facebook-ios-sdk/**/**",
+					"\"$(SRCROOT)/../facebook-ios-sdk\"",
+					"\"$(SRCROOT)/../s2m-facebook-iOS/lib/s2m-facebook\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		E8880C411523714D00C25F7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../s2m-facebook-iOS/framework\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TICBook/TICBook-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"../project/TIClib-facebook/**",
+					"../../../facebook-ios-sdk/lib/facebook-ios-sdk/**",
+				);
+				INFOPLIST_FILE = "TICBook/TICBook-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"../../../facebook-ios-sdk/lib/facebook-ios-sdk/**/**",
+					"\"$(SRCROOT)/../facebook-ios-sdk\"",
+					"\"$(SRCROOT)/../s2m-facebook-iOS/lib/s2m-facebook\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E8880C1B1523714D00C25F7F /* Build configuration list for PBXProject "TICBook" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E8880C3D1523714D00C25F7F /* Debug */,
+				E8880C3E1523714D00C25F7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E8880C3F1523714D00C25F7F /* Build configuration list for PBXNativeTarget "TICBook" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E8880C401523714D00C25F7F /* Debug */,
+				E8880C411523714D00C25F7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E8880C181523714D00C25F7F /* Project object */;
+}
