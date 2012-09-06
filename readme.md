@@ -1,10 +1,10 @@
 #S2M-Facebook
 
-this is a wrapper for the Facebook iOS SDK.
+This is a wrapper for the Facebook iOS SDK.
 
-take a look at the sample, run s2m-facebook-iOS/scripts/build_s2m_facebook_framework.sh to build the framework version of the project.
+Take a look at the sample, run *s2m-facebook-iOS/scripts/build_s2m_facebook_framework.sh* to build the framework version of the project.
 
-To include the wrapper into your project, simply add the S2M-Facebook.framework in /s2m-facebook-iOS/s2m-facebook-iOS/framework/S2M-Facebook.framework to your project.
+To include the wrapper into your project, simply add the S2M-Facebook.framework in */s2m-facebook-iOS/s2m-facebook-iOS/framework/S2M-Facebook.framework* to your project.
 
 Please report all bugs.
 
@@ -32,6 +32,3 @@ Merge requests with bug-fixes are more than welcome.
 	 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 	 See the License for the specific language governing permissions and
 	 limitations under the License.
-	
-
-
