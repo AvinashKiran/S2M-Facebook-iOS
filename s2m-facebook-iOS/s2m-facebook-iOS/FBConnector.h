@@ -77,7 +77,7 @@ typedef NSUInteger FBImageType;
 @interface FBConnector (FaceBookSessionControll)
 // if 'delegate' is nil, delegate will be the stored delegete, which is used to initialize the FBConnector object.
 
-- (id)loginWithDelegate:(id<FBConnectorDelegate>)delegate;
+- (id)loginWithDelegate:(id<FBConnectorDelegate>)delegate useDialog:(BOOL)use;
 - (id)logoutWithDelegate:(id<FBConnectorDelegate>)delegate;
 
 - (BOOL)isSessionValid;

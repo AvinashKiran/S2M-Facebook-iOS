@@ -84,6 +84,18 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		E81605B915FA2E2B006CC067 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		01F343C515F8F89C0094D9D5 /* facebook-ios-sdk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "facebook-ios-sdk.xcodeproj"; path = "../facebook-ios-sdk.git/src/facebook-ios-sdk.xcodeproj"; sourceTree = "<group>"; };
 		E81A738B15739F2900E2661D /* libs2m-facebook-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libs2m-facebook-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -330,6 +342,7 @@
 				E81A738715739F2900E2661D /* Sources */,
 				E81A738815739F2900E2661D /* Frameworks */,
 				E81A738915739F2900E2661D /* Headers */,
+				E81605B915FA2E2B006CC067 /* CopyFiles */,
 			);
 			buildRules = (
 			);

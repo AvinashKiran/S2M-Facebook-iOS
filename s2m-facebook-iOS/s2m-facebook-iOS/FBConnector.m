@@ -20,13 +20,28 @@
 #import "FBInternalRequest.h"
 #import "Facebook.h"
 #import "SBJSON.h"
+#import <objc/runtime.h>
+#import <objc/message.h>
 
-static FBConnector *fbConnecotrInstance = nil;
+void Swizzle(Class c, SEL orig, SEL new);
+
+void Swizzle(Class c, SEL orig, SEL new)
+{
+    Method origMethod = class_getInstanceMethod(c, orig);
+    Method newMethod = class_getInstanceMethod(c, new);
+    if(class_addMethod(c, orig, method_getImplementation(newMethod), method_getTypeEncoding(newMethod)))
+        class_replaceMethod(c, new, method_getImplementation(origMethod), method_getTypeEncoding(origMethod));
+    else
+        method_exchangeImplementations(origMethod, newMethod);
+}
+
+static FBConnector *fbConnectorInstance = nil;
 
 @interface FBConnector () <FBSessionDelegate, FBInternalRequestDelegate>
 {
 @private
     Facebook                    *_facebook;
+    FBLoginDialog                    *_loginDialog;
     NSString                    *_appId;
     NSArray                     *_permissions;
     NSMutableDictionary         *_userPermissions;
@@ -36,12 +51,16 @@ static FBConnector *fbConnecotrInstance = nil;
     NSMutableDictionary         *_requestFailMethods;
 }
 @property (nonatomic, retain) Facebook              *facebook;
+@property (nonatomic, retain) FBLoginDialog              *loginDialog;
 @property (nonatomic, retain) NSString              *appId;
 @property (nonatomic, retain) NSArray               *permissions;
 @property (nonatomic, retain) NSMutableDictionary   *userPermissions;
 @property (nonatomic, retain) NSMutableDictionary   *requestDictionary;
 @property (nonatomic, retain) NSMutableDictionary   *requestSuccessMethods;
 @property (nonatomic, retain) NSMutableDictionary   *requestFailMethods;
+@property (nonatomic, assign) BOOL                  loginWithDialog;
+
++ (NSString *)generateURL:(NSString*)baseURL params:(NSDictionary*)params;
 
 - (NSString *)nextRequestId;
 - (FBInternalRequest *)newIntenalRequest:(id<FBConnectorDelegate>)delegate;
@@ -108,18 +127,59 @@ static FBConnector *fbConnecotrInstance = nil;
 
 @implementation FBConnector
 @synthesize facebook = _facebook;
+@synthesize loginDialog = _loginDialog;
 @synthesize appId = _appId;
 @synthesize permissions = _permissions;
 @synthesize userPermissions = _userPermissions;
 @synthesize requestDictionary = _requestDictionary;
 @synthesize requestSuccessMethods = _requestSuccessMethods;
 @synthesize requestFailMethods = _requestFailMethods;
+@synthesize loginWithDialog = _loginWithDialog;
 
 #pragma mark - Memory Management Methods
 
++ (void)setUp
+{
+    static BOOL didSetup = NO;
+    
+    if (didSetup)
+    {
+        return;
+    }
+    
+//    Swizzle([FBDialog class], @selector(webView:shouldStartLoadWithRequest:navigationType:), @selector(ticWebView:shouldStartLoadWithRequest:navigationType:));
+    Swizzle([FBSession class], @selector(openWithCompletionHandler:), @selector(ticOpenWithCompletionHandler:));
+    Swizzle([FBDialog class], @selector(webViewDidFinishLoad:), @selector(ticWebViewDidFinishLoad:));
+    
+    didSetup = YES;
+}
+
++ (NSString *)generateURL:(NSString*)baseURL params:(NSDictionary*)params {
+    if (params) {
+        NSMutableArray* pairs = [NSMutableArray array];
+        for (NSString* key in params.keyEnumerator) {
+            NSString* value = [params objectForKey:key];
+            NSString* escaped_value = (NSString *)CFURLCreateStringByAddingPercentEscapes(
+                                                                                          kCFAllocatorDefault,
+                                                                                          (CFStringRef)value,
+                                                                                          NULL, // characters to leave unescaped
+                                                                                          (CFStringRef)@":!*();@/&?#[]+$,='%’\"",
+                                                                                          kCFStringEncodingUTF8);
+            [escaped_value autorelease];
+            [pairs addObject:[NSString stringWithFormat:@"%@=%@", key, escaped_value]];
+        }
+        
+        NSString* query = [pairs componentsJoinedByString:@"&"];
+        baseURL = [NSString stringWithFormat:@"%@?%@", baseURL, query];
+    }
+    
+    return baseURL;
+}
+
+
 + (FBConnector *)fbConnectorInstance
 {
-    return fbConnecotrInstance;
+    return fbConnectorInstance;
 }
 
 - (id)initWithAppId:(NSString *)appId andDelegate:(id<FBConnectorDelegate>)delegate
@@ -137,6 +197,9 @@ static FBConnector *fbConnecotrInstance = nil;
     
     if (self) {
         // Initialization code here.
+        fbConnectorInstance = self;
+        
+        [FBConnector setUp];
         NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
         
         [defaultCenter addObserver:self
@@ -144,7 +207,7 @@ static FBConnector *fbConnecotrInstance = nil;
                               name:UIApplicationDidBecomeActiveNotification
                             object:[UIApplication sharedApplication]];
         
-        _permissions = [[NSArray alloc] initWithObjects:@"offline_access", nil];
+        _permissions = [[NSArray alloc] initWithObjects:@"offline_access", @"user_about_me", @"friends_about_me", nil];
         _userPermissions = [[NSMutableDictionary alloc] initWithCapacity:1];        
         _requestDictionary = [[NSMutableDictionary alloc] init];
         _delegate = delegate;
@@ -155,8 +218,6 @@ static FBConnector *fbConnecotrInstance = nil;
         _requestFailMethods = [[NSMutableDictionary alloc] init];
         
         _facebook = [[Facebook alloc] initWithAppId:appId urlSchemeSuffix:urlSchemeSuffix andDelegate:self];
-        
-        fbConnecotrInstance = self;
     }
     
     return self;
@@ -165,7 +226,7 @@ static FBConnector *fbConnecotrInstance = nil;
 - (void)dealloc
 {
     _delegate = nil;
-    fbConnecotrInstance = nil;
+    fbConnectorInstance = nil;
     [_facebook release];
     [_appId release];
     [_permissions release];
@@ -355,7 +416,7 @@ static FBConnector *fbConnecotrInstance = nil;
 
 #pragma mark - FaceBookSessionControll Methods
 
-- (id)loginWithDelegate:(id<FBConnectorDelegate>)delegate
+- (id)loginWithDelegate:(id<FBConnectorDelegate>)delegate useDialog:(BOOL)useDialog
 {
     
     // Check and retrieve authorization information
@@ -367,7 +428,8 @@ static FBConnector *fbConnecotrInstance = nil;
     }
     FBInternalRequest *internReq = [[self newIntenalRequest:delegate] autorelease];
     
-    if (![_facebook isSessionValid]) {
+    if (![self isSessionValid]) {
+        self.loginWithDialog = useDialog;
         _facebook.sessionDelegate = (id<FBSessionDelegate>)internReq;
         [_facebook authorize:_permissions];
     } else {
@@ -1559,3 +1621,115 @@ static FBConnector *fbConnecotrInstance = nil;
 
 @end
 
+@interface FBSession (TICSession)
+- (void)ticOpenWithCompletionHandler:(FBSessionStateHandler)handler;
+@end
+
+@implementation FBSession (TICSession)
+- (void)ticOpenWithCompletionHandler:(FBSessionStateHandler)handler {
+    if ([[FBConnector fbConnectorInstance] loginWithDialog])
+    {
+        [self openWithBehavior:FBSessionLoginBehaviorSuppressSSO completionHandler:handler];
+    }
+    else
+    {
+        [self ticOpenWithCompletionHandler:handler];
+    }
+}
+@end
+
+@interface FBDialog (TICDialog)
+
+- (BOOL)ticWebView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
+    navigationType:(UIWebViewNavigationType)navigationType;
+- (void)ticWebViewDidFinishLoad:(UIWebView *)webView;
+@end
+
+@implementation FBDialog (TICDialog)
+
+- (BOOL)ticWebView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
+    navigationType:(UIWebViewNavigationType)navigationType {
+    NSURL* url = request.URL;
+    NSLog(@"start to load URL: %@", url);
+    // inside server error
+    NSString *authenticatedError = @"http://m.facebook.com/developers/login_error.php?app_id=";
+    NSString *currentURLString = [url absoluteString];
+    
+    if ([currentURLString hasPrefix:authenticatedError])
+    {
+        NSLog(@"show waiting message");
+    }
+    
+    // get App ID
+    NSString *appScheme = nil;
+    NSArray* aBundleURLTypes = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleURLTypes"];
+    if ([aBundleURLTypes isKindOfClass:[NSArray class]] &&
+        ([aBundleURLTypes count] > 0)) {
+        NSDictionary* aBundleURLTypes0 = [aBundleURLTypes objectAtIndex:0];
+        if ([aBundleURLTypes0 isKindOfClass:[NSDictionary class]]) {
+            NSArray* aBundleURLSchemes = [aBundleURLTypes0 objectForKey:@"CFBundleURLSchemes"];
+            if ([aBundleURLSchemes isKindOfClass:[NSArray class]] &&
+                ([aBundleURLSchemes count] > 0)) {
+                appScheme = [aBundleURLSchemes objectAtIndex:0];
+            }
+        }
+    }
+    
+    if ([url.scheme isEqualToString:appScheme]) {
+        NSString *fullURL = [url absoluteString];
+        fullURL = [fullURL stringByReplacingOccurrencesOfString:appScheme withString:@"fbconnect"];
+        request = [NSURLRequest requestWithURL:[NSURL URLWithString:fullURL]];
+    }
+    
+    return [self ticWebView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
+}
+
+- (void)ticWebViewDidFinishLoad:(UIWebView *)webView
+{
+    NSURL* url = webView.request.URL;
+    NSLog(@"finished to load URL: %@", url);
+    
+    // inside server error
+    NSString *authenticatedError = @"http://m.facebook.com/developers/login_error.php?app_id=";
+    NSString *currentURLString = [url absoluteString];
+    
+    if ([currentURLString hasPrefix:authenticatedError])
+    {
+        // get App ID
+        NSString *appScheme = nil;
+        NSArray* aBundleURLTypes = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleURLTypes"];
+        if ([aBundleURLTypes isKindOfClass:[NSArray class]] &&
+            ([aBundleURLTypes count] > 0)) {
+            NSDictionary* aBundleURLTypes0 = [aBundleURLTypes objectAtIndex:0];
+            if ([aBundleURLTypes0 isKindOfClass:[NSDictionary class]]) {
+                NSArray* aBundleURLSchemes = [aBundleURLTypes0 objectForKey:@"CFBundleURLSchemes"];
+                if ([aBundleURLSchemes isKindOfClass:[NSArray class]] &&
+                    ([aBundleURLSchemes count] > 0)) {
+                    appScheme = [aBundleURLSchemes objectAtIndex:0];
+                }
+            }
+        }
+        
+        NSMutableDictionary *params = [[[NSMutableDictionary alloc] initWithCapacity:10] autorelease];
+        NSString *redirect_uri = [NSString stringWithFormat:@"%@://authorize", appScheme];
+        [params setObject:redirect_uri forKey:@"redirect_uri"];
+        // define permission scope.
+        NSString *scope = [[FBConnector fbConnectorInstance].permissions componentsJoinedByString:@","];
+        [params setObject:scope forKey:@"scope"];
+        [params setObject:@"ios" forKey:@"sdk"];
+        [params setObject:@"user_agent" forKey:@"type"];
+        [params setObject:@"touch" forKey:@"display"];
+        
+        NSBundle* bundle = [NSBundle mainBundle];
+        NSString *fbAppID = [bundle objectForInfoDictionaryKey:@"FacebookAppID"];
+        
+        [params setObject:fbAppID forKey:@"client_id"];
+        NSString *urlString = [FBConnector generateURL:@"https://m.facebook.com/dialog/oauth" params:params];
+        NSLog(@"%@", urlString);
+        NSURL *url = [NSURL URLWithString:urlString];
+        [webView loadRequest:[NSURLRequest requestWithURL:url]];
+    }
+    
+    [self ticWebViewDidFinishLoad:webView];
+}
+@end

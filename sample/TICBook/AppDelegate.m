@@ -19,7 +19,6 @@
 #import "ViewController.h"
 #import <S2M-Facebook/FBConnector.h>
 
-
 static NSString* kAppId = @"210849718975311";
 
 static FBUser *userInfoInstance = nil;
@@ -46,14 +45,13 @@ static FBUser *userInfoInstance = nil;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+{    
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
 
     self.viewController = [[[ViewController alloc] initWithNibName:@"ViewController" bundle:nil] autorelease];
     
     UINavigationController *naviController = [[UINavigationController alloc] initWithRootViewController:self.viewController];
-    
     _fbConnector = [[FBConnector alloc] initWithAppId:kAppId andDelegate:self.viewController];
     
     self.window.rootViewController = naviController;
@@ -111,8 +109,7 @@ static FBUser *userInfoInstance = nil;
         }
     }
     
-    [_fbConnector loginWithDelegate:self];
-    
+    [_fbConnector loginWithDelegate:self useDialog:YES];
     return YES;
 }
 

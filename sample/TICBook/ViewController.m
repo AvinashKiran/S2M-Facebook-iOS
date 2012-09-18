@@ -194,6 +194,11 @@ static NSInteger currentFriendIndex = 0;
 
 #pragma mark - TICFBSessionDelegate Methods
 
+- (void)didLogin:(id)requestId
+{
+    
+}
+
 - (void)didLogout:(id)requestId
 {
     

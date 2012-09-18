@@ -53,7 +53,7 @@
 
 - (void)fbDidLogin
 {
-    [_internalDelegate didSessionUpdate:self tocken:nil expirationDate:nil];
+    [_internalDelegate didRequestSuccess:self withResult:nil];
 }
 
 
@@ -139,6 +139,13 @@
     // actually these protocol mothods are not optional.
 }
 
+
+#pragma mark - FBLoginDialogDelegate Methods
+
+- (void)fbDialogLogin:(NSString*)token expirationDate:(NSDate*)expirationDate
+{
+    [_internalDelegate didSessionUpdate:self tocken:token expirationDate:expirationDate];
+}
 
 #pragma mark - FBDialogDelegate Methods
 
