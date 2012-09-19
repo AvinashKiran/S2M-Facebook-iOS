@@ -53,6 +53,8 @@ typedef NSUInteger FBImageType;
     id<FBConnectorDelegate>    _delegate;
 }
 
+@property (nonatomic, retain) NSArray               *permissions;
+
 + (FBConnector *)fbConnectorInstance;
 
 - (id)initWithAppId:(NSString *)appId

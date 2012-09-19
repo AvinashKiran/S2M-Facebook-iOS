@@ -30,4 +30,6 @@
 @property (nonatomic, copy) NSString *gender;
 @property (nonatomic, copy) NSString *website;
 
++ (FBUser *)currentUser;
+
 @end

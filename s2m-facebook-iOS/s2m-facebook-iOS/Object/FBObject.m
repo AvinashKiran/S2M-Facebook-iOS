@@ -32,6 +32,9 @@
         if (!_uid)
             self.uid = [dic objectForKey:@"uid"];
         
+        if (!_uid)
+            self.uid = [dic objectForKey:@"fbid"];
+        
         if ([self.uid isKindOfClass:[NSNumber class]])
             self.uid = [(NSNumber *)self.uid stringValue];
         

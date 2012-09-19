@@ -18,6 +18,7 @@
 
 #import "FBConnector.h"
 #import "FBInternalRequest.h"
+#import "FBURLConnection.h"
 #import "Facebook.h"
 #import "SBJSON.h"
 #import <objc/runtime.h>
@@ -53,14 +54,13 @@ static FBConnector *fbConnectorInstance = nil;
 @property (nonatomic, retain) Facebook              *facebook;
 @property (nonatomic, retain) FBLoginDialog              *loginDialog;
 @property (nonatomic, retain) NSString              *appId;
-@property (nonatomic, retain) NSArray               *permissions;
 @property (nonatomic, retain) NSMutableDictionary   *userPermissions;
 @property (nonatomic, retain) NSMutableDictionary   *requestDictionary;
 @property (nonatomic, retain) NSMutableDictionary   *requestSuccessMethods;
 @property (nonatomic, retain) NSMutableDictionary   *requestFailMethods;
 @property (nonatomic, assign) BOOL                  loginWithDialog;
 
-+ (NSString *)generateURL:(NSString*)baseURL params:(NSDictionary*)params;
++ (NSString *)generateURL:(NSString*)baseURL params:(NSMutableDictionary*)params;
 
 - (NSString *)nextRequestId;
 - (FBInternalRequest *)newIntenalRequest:(id<FBConnectorDelegate>)delegate;
@@ -149,13 +149,14 @@ static FBConnector *fbConnectorInstance = nil;
     
 //    Swizzle([FBDialog class], @selector(webView:shouldStartLoadWithRequest:navigationType:), @selector(ticWebView:shouldStartLoadWithRequest:navigationType:));
     Swizzle([FBSession class], @selector(openWithCompletionHandler:), @selector(ticOpenWithCompletionHandler:));
-    Swizzle([FBDialog class], @selector(webViewDidFinishLoad:), @selector(ticWebViewDidFinishLoad:));
+//    Swizzle([FBDialog class], @selector(webViewDidFinishLoad:), @selector(ticWebViewDidFinishLoad:));
     
     didSetup = YES;
 }
 
-+ (NSString *)generateURL:(NSString*)baseURL params:(NSDictionary*)params {
++ (NSString *)generateURL:(NSString *)baseURL params:(NSMutableDictionary *)params {
     if (params) {
+        [params setObject:[FBConnector fbConnectorInstance].facebook.session.accessToken forKey:@"access_token"];
         NSMutableArray* pairs = [NSMutableArray array];
         for (NSString* key in params.keyEnumerator) {
             NSString* value = [params objectForKey:key];
@@ -207,7 +208,7 @@ static FBConnector *fbConnectorInstance = nil;
                               name:UIApplicationDidBecomeActiveNotification
                             object:[UIApplication sharedApplication]];
         
-        _permissions = [[NSArray alloc] initWithObjects:@"offline_access", @"user_about_me", @"friends_about_me", nil];
+        _permissions = [[NSArray alloc] initWithObjects:@"offline_access", nil];
         _userPermissions = [[NSMutableDictionary alloc] initWithCapacity:1];        
         _requestDictionary = [[NSMutableDictionary alloc] init];
         _delegate = delegate;
@@ -296,6 +297,10 @@ static FBConnector *fbConnectorInstance = nil;
 - (void)fbDidLogin
 {
     NSLog(@"fbDidLogin: something wrong. this method should be not called.");
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[self.facebook accessToken] forKey:@"FBAccessTokenKey"];
+    [defaults setObject:[self.facebook expirationDate] forKey:@"FBExpirationDateKey"];
+    [defaults synchronize];
 }
 
 - (void)fbDidNotLogin:(BOOL)cancelled
@@ -427,9 +432,9 @@ static FBConnector *fbConnectorInstance = nil;
         _facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
     }
     FBInternalRequest *internReq = [[self newIntenalRequest:delegate] autorelease];
+    self.loginWithDialog = useDialog;
     
     if (![self isSessionValid]) {
-        self.loginWithDialog = useDialog;
         _facebook.sessionDelegate = (id<FBSessionDelegate>)internReq;
         [_facebook authorize:_permissions];
     } else {
@@ -448,7 +453,10 @@ static FBConnector *fbConnectorInstance = nil;
     FBInternalRequest *internReq = [[self newIntenalRequest:delegate] autorelease];
     _facebook.sessionDelegate = (id<FBSessionDelegate>)internReq;
 
-    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:@"FBAccessTokenKey"];
+    [defaults removeObjectForKey:@"FBExpirationDateKey"];
+    [defaults synchronize];
     [_facebook logout:(id<FBSessionDelegate>)internReq];
     
     [_requestDictionary setObject:internReq forKey:internReq.requestId];
@@ -555,6 +563,7 @@ static FBConnector *fbConnectorInstance = nil;
                                   nil];
     
     NSString *feedURL = [NSString stringWithFormat:@"%@/feed", user ? user.uid : @"me"];
+    NSLog(@"session token = %@", self.facebook.session.accessToken);
     internReq.fbRequest = [_facebook requestWithGraphPath:feedURL
                                                 andParams:params
                                             andHttpMethod:@"GET"
@@ -766,8 +775,8 @@ static FBConnector *fbConnectorInstance = nil;
     
     
     [_requestDictionary setObject:internReq forKey:internReq.requestId]; 
-    [_requestSuccessMethods setObject:@"didPostComments:withResult:" forKey:internReq.requestId];
-    [_requestFailMethods setObject:@"didNotPostComments:withError:" forKey:internReq.requestId];
+    [_requestSuccessMethods setObject:@"didPostComment:withResult:" forKey:internReq.requestId];
+    [_requestFailMethods setObject:@"didNotPostComment:withError:" forKey:internReq.requestId];
     return internReq.requestId;
 
 }
@@ -890,7 +899,7 @@ static FBConnector *fbConnectorInstance = nil;
 }
 - (id)downloadImage:(FBObject *)object imageType:(FBImageType)type withDelegate:(id<FBConnectorDelegate>)delegate
 {
-    FBInternalRequest *internReq = [[self newIntenalRequest:delegate] autorelease];
+    __block FBInternalRequest *internReq = [[self newIntenalRequest:delegate] autorelease];
     
     NSString *imageTypeString = nil;
     switch (type) {
@@ -913,19 +922,33 @@ static FBConnector *fbConnectorInstance = nil;
             imageTypeString = @"thumbnail";
             break;
     }
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:imageTypeString, @"type", nil];
+    NSString *baseURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture", object.uid];
+    NSString *graphURL = [FBConnector generateURL:baseURL params:params];
+    NSURL* url = [NSURL URLWithString:graphURL];
     
-    NSString *graphURL = [NSString stringWithFormat:@"%@/picture", object.uid];
-    internReq.fbRequest = [_facebook requestWithGraphPath:graphURL
-                                                andParams:params
-                                            andHttpMethod:@"GET"
-                                              andDelegate:(id<FBRequestDelegate>)internReq];
+    NSLog(@"Image request URL : %@", url);
+    FBURLConnection *connection = [[[FBURLConnection alloc]
+                                    initWithURL:url
+                                    completionHandler:^(FBURLConnection* connection, NSError* error, NSURLResponse* response, NSData* data)
+                                    {
+                                        if (!error)
+                                        {
+                                            [self didDownloadImage:internReq withResult:data];
+                                        }
+                                        else
+                                        {
+                                            [self didNotDownloadImage:internReq withError:error];
+                                        }
+                                    }] autorelease];
     
+    NSLog(@"current image request connection : %@", connection);
     
     [_requestDictionary setObject:internReq forKey:internReq.requestId];
     [_requestSuccessMethods setObject:@"didDownloadImage:withResult:" forKey:internReq.requestId];
     [_requestFailMethods setObject:@"didNotDownloadImage:withError:" forKey:internReq.requestId];
-    
+
     return internReq.requestId;
 }
 
@@ -1029,7 +1052,15 @@ static FBConnector *fbConnectorInstance = nil;
    andDelegate:(id <FBConnectorDelegate>)delegate
 {
     FBInternalRequest *internReq = [[self newIntenalRequest:delegate] autorelease];
-    [_facebook dialog:action andParams:params andDelegate:(id<FBDialogDelegate>)internReq];
+    if ([action isEqualToString:@"oauth"])
+    {
+        self.loginWithDialog = YES;
+        [_facebook dialog:action andParams:params andDelegate:(id<FBDialogDelegate>)internReq];
+    }
+    else
+    {
+        [_facebook dialog:action andParams:params andDelegate:(id<FBDialogDelegate>)internReq];
+    }
     
     [_requestDictionary setObject:internReq forKey:internReq.requestId];
     return internReq.requestId;
@@ -1071,6 +1102,11 @@ static FBConnector *fbConnectorInstance = nil;
 
 - (void)didLogin:(FBInternalRequest *)request withResult:(id)result
 {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[self.facebook accessToken] forKey:@"FBAccessTokenKey"];
+    [defaults setObject:[self.facebook expirationDate] forKey:@"FBExpirationDateKey"];
+    [defaults synchronize];
+    
     if ([request.delegate respondsToSelector:@selector(didLogin:)])
         [request.delegate didLogin:request.requestId];
     else

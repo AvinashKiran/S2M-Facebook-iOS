@@ -39,8 +39,6 @@
             }
             
             _objects = albums;
-            if ([_objects count] > 0)
-                _hasMore = YES;
         }
     }
     

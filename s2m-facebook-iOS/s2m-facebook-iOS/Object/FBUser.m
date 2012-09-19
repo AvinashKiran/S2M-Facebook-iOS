@@ -17,6 +17,8 @@
 
 #import "FBUser.h"
 
+static FBUser *staticInstance = nil;
+
 @implementation FBUser
 
 @synthesize firstName;
@@ -28,6 +30,11 @@
 @synthesize nameFormat;
 @synthesize gender;
 @synthesize website;
+
++ (FBUser *)currentUser
+{
+    return staticInstance;
+}
 
 - (id)initWithDictionary:(NSDictionary *)dic
 {
@@ -43,10 +50,28 @@
         self.gender = [dic objectForKey:@"sex"];
         self.nameFormat = [dic objectForKey:@"name_format"];
         self.website = [dic objectForKey:@"website"];
-        
+        staticInstance = self;
     }
     
     return  self;
+}
+
+- (void)dealloc
+{
+    if (staticInstance == self)
+    {
+        staticInstance = nil;
+    }
+    self.firstName = nil;
+    self.middleName = nil;
+    self.contactEmail = nil;
+    self.lastName = nil;
+    self.email = nil;
+    self.locale = nil;
+    self.gender = nil;
+    self.nameFormat = nil;
+    
+    [super dealloc];
 }
 
 @end
