@@ -79,6 +79,7 @@ cp $HEADER_PATH/*.h $FRAMEWORK/Versions/A/Headers
 cp $HEADER_PATH/Object/*.h $FRAMEWORK/Versions/A/Headers
 cp $HEADER_PATH/List/*.h $FRAMEWORK/Versions/A/Headers
 cp $HEADER_PATH/Internal/*.h $FRAMEWORK/Versions/A/Headers
+cp -rf $PROJECT_HOME/../facebook-ios-sdk.git/src/FBiOSSDKResources.bundle $FRAMEWORK/Versions/A/Resources/FBiOSSDKResources.bundle
 
 echo "link....."
 echo "link current..."
