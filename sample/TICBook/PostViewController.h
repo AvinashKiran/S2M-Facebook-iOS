@@ -20,7 +20,7 @@
 @interface PostViewController : UITableViewController
 
 @property (nonatomic, retain) FBPost                *currentPost;
-@property (nonatomic, retain) FBBaseUser            *currentUser;
+@property (nonatomic, retain) FBUser                *currentUser;
 @property (nonatomic, retain) NSMutableArray        *postItems;
 
 

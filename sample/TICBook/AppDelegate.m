@@ -19,29 +19,16 @@
 #import "ViewController.h"
 #import <S2M-Facebook/FBConnector.h>
 
-static NSString* kAppId = @"210849718975311";
-
-static FBUser *userInfoInstance = nil;
-
 @implementation AppDelegate
 
 @synthesize window = _window;
 @synthesize viewController = _viewController;
-@synthesize fbConnector = _fbConnector;
-@synthesize currentUser = _currentUser;
-
 
 - (void)dealloc
 {
-    [_fbConnector release];
     [_viewController release];
     [_window release];
     [super dealloc];
-}
-
-+ (FBUser *)currenUserInstance
-{
-    return userInfoInstance;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -52,7 +39,7 @@ static FBUser *userInfoInstance = nil;
     self.viewController = [[[ViewController alloc] initWithNibName:@"ViewController" bundle:nil] autorelease];
     
     UINavigationController *naviController = [[UINavigationController alloc] initWithRootViewController:self.viewController];
-    _fbConnector = [[FBConnector alloc] initWithAppId:kAppId andDelegate:self.viewController];
+    
     
     self.window.rootViewController = naviController;
     [self.window makeKeyAndVisible];
@@ -108,8 +95,7 @@ static FBUser *userInfoInstance = nil;
             return YES;
         }
     }
-    
-    [_fbConnector loginWithDelegate:self useDialog:YES];
+
     return YES;
 }
 
@@ -153,39 +139,11 @@ static FBUser *userInfoInstance = nil;
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    return [self.fbConnector handleOpenURL:url];
+    return [[FBConnector fbConnectorInstance] handleOpenURL:url];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    return [self.fbConnector handleOpenURL:url];
-}
-
-#pragma mark - TICFBSessionDelegate Methods
-
-- (void)didLogin:(id)requestId
-{
-    NSLog(@"did Login");
-    [[FBConnector fbConnectorInstance] currentUserInfoWithDelegate:self];
-}
-
-
-- (void)didGetUserInfo:(id)requestId withUser:(FBUser *)user
-{
-    NSLog(@"did get user  success");
-    self.currentUser = user;
-    userInfoInstance = user;
-    self.viewController.currentUser = user;
-}
-
-- (void)didRequestSuccess:(id)requestId withResult:(id)result
-{
-    NSLog(@"request success");
-    NSLog(@"resutl : %@", result);    
-}
-
-- (void)didRequestFail:(id)requestId userCancelled:(BOOL)cancelled withError:(NSError *)error
-{
-    NSLog(@"request failed : %@", error);
+    return [[FBConnector fbConnectorInstance] handleOpenURL:url];
 }
 
 @end

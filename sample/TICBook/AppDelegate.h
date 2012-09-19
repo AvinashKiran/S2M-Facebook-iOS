@@ -15,19 +15,14 @@
  */
 
 #import <UIKit/UIKit.h>
-
 #import <S2M-Facebook/FBConnector.h>
+
+static NSString* kAppId = @"210849718975311";
 
 @class ViewController;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, FBConnectorDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
 @property (strong, nonatomic) ViewController *viewController;
-@property (nonatomic, retain) FBConnector *fbConnector;
-@property (nonatomic, retain) FBUser    *currentUser;
-
-+ (FBUser *)currenUserInstance;
-
 @end

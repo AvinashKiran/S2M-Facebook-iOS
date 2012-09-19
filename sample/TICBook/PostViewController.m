@@ -108,7 +108,7 @@
     [super viewDidLoad];
     _postItems = [[NSMutableArray alloc] init];
     
-    self.currentUser = (FBBaseUser *)[AppDelegate currenUserInstance];
+    self.currentUser = (FBUser *)[FBUser currentUser];
     
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = self.currentPost.message;

@@ -22,7 +22,7 @@
 
 
 @property (nonatomic, retain) FBPhoto                *currentPhoto;
-@property (nonatomic, retain) FBBaseUser            *currentUser;
+@property (nonatomic, retain) FBUser                *currentUser;
 @property (nonatomic, retain) NSMutableArray        *postItems;
 
 

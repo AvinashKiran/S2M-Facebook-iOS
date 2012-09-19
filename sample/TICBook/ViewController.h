@@ -27,6 +27,8 @@
 @property (nonatomic, retain) NSMutableArray *photos;
 @property (nonatomic, assign) IBOutlet UISwitch *useDelegate;
 @property (nonatomic, assign) IBOutlet UIImageView *imageView;
+@property (nonatomic, assign) IBOutlet UIButton *logInButton;
+@property (nonatomic, assign) FBConnector *fbConnector;
 @property (nonatomic, retain) FBUser    *currentUser;
 
 

@@ -273,7 +273,7 @@
 
 - (IBAction)getFeedList:(id)sender
 {
-    id requestId = [[FBConnector fbConnectorInstance] feedsOfUser:(FBBaseUser *)self.currentUser
+    id requestId = [[FBConnector fbConnectorInstance] feedsOfUser:self.currentUser
                                                            offset:_offet
                                                             limit:_limit
                                                      withDelegate:self];
