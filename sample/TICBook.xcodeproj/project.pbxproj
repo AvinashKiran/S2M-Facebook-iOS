@@ -23,6 +23,7 @@
 		E83E60691523746A0041A1AC /* PhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E83E605A1523746A0041A1AC /* PhotoViewController.xib */; };
 		E83E606A1523746A0041A1AC /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E83E605C1523746A0041A1AC /* PostViewController.m */; };
 		E83E606B1523746A0041A1AC /* PostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E83E605D1523746A0041A1AC /* PostViewController.xib */; };
+		E849DE53160B1DF9000FFB8F /* FBiOSSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E849DE52160B1DF8000FFB8F /* FBiOSSDKResources.bundle */; };
 		E8880C261523714D00C25F7F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8880C251523714D00C25F7F /* UIKit.framework */; };
 		E8880C281523714D00C25F7F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8880C271523714D00C25F7F /* Foundation.framework */; };
 		E8880C2A1523714D00C25F7F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8880C291523714D00C25F7F /* CoreGraphics.framework */; };
@@ -57,6 +58,7 @@
 		E83E605B1523746A0041A1AC /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostViewController.h; sourceTree = "<group>"; };
 		E83E605C1523746A0041A1AC /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostViewController.m; sourceTree = "<group>"; };
 		E83E605D1523746A0041A1AC /* PostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostViewController.xib; sourceTree = "<group>"; };
+		E849DE52160B1DF8000FFB8F /* FBiOSSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FBiOSSDKResources.bundle; path = "../s2m-facebook-iOS/framework/S2M-Facebook.framework/Versions/A/Resources/FBiOSSDKResources.bundle"; sourceTree = "<group>"; };
 		E8880C211523714D00C25F7F /* TICBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TICBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8880C251523714D00C25F7F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E8880C271523714D00C25F7F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -98,6 +100,7 @@
 		E8880C161523714D00C25F7F = {
 			isa = PBXGroup;
 			children = (
+				E849DE52160B1DF8000FFB8F /* FBiOSSDKResources.bundle */,
 				01F343E615F8FEEE0094D9D5 /* libsqlite3.dylib */,
 				E81A74DB1573B0A500E2661D /* Library */,
 				E8880C2B1523714D00C25F7F /* TICBook */,
@@ -229,6 +232,7 @@
 				E83E60671523746A0041A1AC /* FriendListViewController.xib in Resources */,
 				E83E60691523746A0041A1AC /* PhotoViewController.xib in Resources */,
 				E83E606B1523746A0041A1AC /* PostViewController.xib in Resources */,
+				E849DE53160B1DF9000FFB8F /* FBiOSSDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
