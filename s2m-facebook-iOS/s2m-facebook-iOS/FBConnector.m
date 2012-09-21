@@ -65,6 +65,7 @@ static FBConnector *fbConnectorInstance = nil;
 - (NSString *)nextRequestId;
 - (FBInternalRequest *)newIntenalRequest:(id<FBConnectorDelegate>)delegate;
 - (void)addInternalRequestToDictionaries:(FBInternalRequest *)request method1:(NSString *)m1 method2:(NSString *)m2;
+- (void)clearSession;
 @end
 
 
@@ -275,6 +276,15 @@ static FBConnector *fbConnectorInstance = nil;
     [_requestFailMethods setObject:m2 forKey:request.requestId];
 }
 
+- (void)clearSession
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:@"FBAccessTokenKey"];
+    [defaults removeObjectForKey:@"FBExpirationDateKey"];
+    [defaults synchronize];
+    [self.facebook.session closeAndClearTokenInformation];
+}
+
 
 #pragma mark - Handle URL
 
@@ -305,6 +315,7 @@ static FBConnector *fbConnectorInstance = nil;
 
 - (void)fbDidNotLogin:(BOOL)cancelled
 {
+    [self clearSession];
     NSLog(@"fbDidNotLogin: something wrong. this method should be not called.");
 }
 
@@ -325,11 +336,14 @@ static FBConnector *fbConnectorInstance = nil;
 
 - (void)fbDidLogout
 {
+    [self clearSession];
     NSLog(@"fbDidExtendToken: something wrong. this method should be not called.");
 }
 
 - (void)fbSessionInvalidated
 {
+    [self clearSession];
+    
     NSLog(@"fbDidExtendToken: something wrong. this method should be not called.");
     if ([_delegate respondsToSelector:@selector(didSessionInvalidate:)])
         [_delegate didSessionInvalidate:nil];
@@ -453,11 +467,8 @@ static FBConnector *fbConnectorInstance = nil;
     FBInternalRequest *internReq = [[self newIntenalRequest:delegate] autorelease];
     _facebook.sessionDelegate = (id<FBSessionDelegate>)internReq;
 
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:@"FBAccessTokenKey"];
-    [defaults removeObjectForKey:@"FBExpirationDateKey"];
-    [defaults synchronize];
     [_facebook logout:(id<FBSessionDelegate>)internReq];
+    [self clearSession];
     
     [_requestDictionary setObject:internReq forKey:internReq.requestId];
     [_requestSuccessMethods setObject:@"didLogout:withResult:" forKey:internReq.requestId];
@@ -1118,6 +1129,8 @@ static FBConnector *fbConnectorInstance = nil;
 }
 - (void)didNotLogin:(FBInternalRequest *)request withError:(NSError *)error
 {
+    [self clearSession];
+    
     if ([request.delegate respondsToSelector:@selector(didNotLogin:cancelled:)])
         [request.delegate didNotLogin:request.requestId cancelled:[request isCancelled]];
     else
@@ -1128,6 +1141,8 @@ static FBConnector *fbConnectorInstance = nil;
 
 - (void)didLogout:(FBInternalRequest *)request withResult:(id)result
 {
+    [self clearSession];
+    
     if ([request.delegate respondsToSelector:@selector(didLogout:)])
         [request.delegate didLogout:request.requestId];
     else

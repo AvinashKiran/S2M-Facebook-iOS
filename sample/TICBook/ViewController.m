@@ -220,6 +220,16 @@ static NSInteger currentFriendIndex = 0;
     [self.logInButton setTitle:@"logout" forState:UIControlStateNormal];
 }
 
+- (void)didNotLogin:(id)requestId cancelled:(BOOL)cancelled
+{
+    if (cancelled == NO)
+    {
+        // try login again.
+        FBConnector *fbConnector = [FBConnector fbConnectorInstance];
+        [fbConnector loginWithDelegate:self useDialog:YES];
+    }
+}
+
 - (void)didLogout:(id)requestId
 {
     [self.logInButton setTitle:@"login" forState:UIControlStateNormal];
