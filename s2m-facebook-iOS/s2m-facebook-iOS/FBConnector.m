@@ -390,6 +390,9 @@ static FBConnector *fbConnectorInstance = nil;
 {
     NSString *selectorString = [_requestSuccessMethods objectForKey:request.requestId];
     
+    [_requestFailMethods removeObjectForKey:request.requestId];
+    [_requestSuccessMethods removeObjectForKey:request.requestId];
+    
     if (selectorString && [self respondsToSelector:NSSelectorFromString(selectorString)])
     {
         [self performSelector:NSSelectorFromString(selectorString) withObject:request withObject:result];
@@ -404,14 +407,14 @@ static FBConnector *fbConnectorInstance = nil;
         [request.delegate didRequestSuccess:request.requestId withResult:result];
         [_requestDictionary removeObjectForKey:request.requestId];
     }
-
-    [_requestFailMethods removeObjectForKey:request.requestId];
-    [_requestSuccessMethods removeObjectForKey:request.requestId];
 }
 
 - (void)didRequestFail:(FBInternalRequest *)request withError:(NSError *)error
 {
     NSString *selectorString = [_requestFailMethods objectForKey:request.requestId];
+    
+    [_requestFailMethods removeObjectForKey:request.requestId];
+    [_requestSuccessMethods removeObjectForKey:request.requestId];
 
     if (selectorString && [self respondsToSelector:NSSelectorFromString(selectorString)])
     {
@@ -427,10 +430,6 @@ static FBConnector *fbConnectorInstance = nil;
         [request.delegate didRequestFail:request.requestId userCancelled:request.isCancelled withError:error];
         [_requestDictionary removeObjectForKey:request.requestId];
     }
-    
-    
-    [_requestFailMethods removeObjectForKey:request.requestId];
-    [_requestSuccessMethods removeObjectForKey:request.requestId];
 }
 
 #pragma mark - FaceBookSessionControll Methods
