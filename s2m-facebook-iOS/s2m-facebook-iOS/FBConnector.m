@@ -278,11 +278,11 @@ static FBConnector *fbConnectorInstance = nil;
 
 - (void)clearSession
 {
+    [self.facebook.session closeAndClearTokenInformation];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:@"FBAccessTokenKey"];
     [defaults removeObjectForKey:@"FBExpirationDateKey"];
     [defaults synchronize];
-    [self.facebook.session closeAndClearTokenInformation];
 }
 
 
@@ -315,6 +315,7 @@ static FBConnector *fbConnectorInstance = nil;
 
 - (void)fbDidNotLogin:(BOOL)cancelled
 {
+    [self.facebook logout:self];
     [self clearSession];
     NSLog(@"fbDidNotLogin: something wrong. this method should be not called.");
 }
@@ -1304,7 +1305,21 @@ static FBConnector *fbConnectorInstance = nil;
 {
     if ([request.delegate respondsToSelector:@selector(didPost:withId:)])
     {
-        NSString *newId = ([result isKindOfClass:[NSString class]]) ? (NSString*)result : [result stringValue];
+        NSLog(@"post result : %@", result);
+        NSString *newId = nil;
+        if ([result isKindOfClass:[NSString class]])
+        {
+            newId = (NSString*)result;
+        }
+        else if ([result isKindOfClass:[NSNumber class]])
+        {
+            newId = [result stringValue];
+        }
+        else if ([result isKindOfClass:[NSDictionary class]])
+        {
+            newId = [result objectForKey:@"id"];
+        }
+        
         [request.delegate didPost:request.requestId withId:newId];
     }
     else
